@@ -41,6 +41,7 @@ jobs:
           protocol: ftps                          # מאובטח (FTPS). אם נכשל -> ftp
           local-dir: ./dist/                      # תוצר הבנייה של Astro
           server-dir: ${{ secrets.FTP_REMOTE_DIR }} # למשל: /public_html/  (או /domains/plumbernow.co.il/public_html/)
+          state-name: .deploy-state-v2.json       # state חדש -> מאלץ העלאה מלאה (משחזר תיקיות בעברית)
           # הערה: ניקוי שאריות וורדפרס ייעשה ידנית דרך File Manager (מחיקת FTP המונית איטית מדי).
           exclude: |
             **/.git*
