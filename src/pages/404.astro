@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FloatingCTA from '../components/FloatingCTA.astro';
+import Icon from '../components/Icon.astro';
+import { site, services } from '../data/site';
+---
+<BaseLayout
+  title="הדף לא נמצא (404) | אינסטלטור עכשיו"
+  description="הדף שחיפשתם לא נמצא. חזרו לעמוד הבית או בחרו שירות אינסטלציה."
+  robots="noindex, follow"
+>
+  <Header slot="header" />
+  <Footer slot="footer" />
+  <FloatingCTA slot="floating" />
+
+  <section class="nf">
+    <div class="container nf__inner">
+      <span class="nf__code">404</span>
+      <h1>אופס, הדף לא נמצא</h1>
+      <p>ייתכן שהקישור שגוי או שהדף הוסר. אבל אנחנו עדיין כאן בשבילכם — בחרו אחת מהאפשרויות:</p>
+      <div class="nf__cta">
+        <a class="btn btn--brand btn--lg" href="/"><Icon name="home" size={20} /> לעמוד הבית</a>
+        <a class="btn btn--cta btn--lg" href={`tel:${site.phoneRaw}`}><Icon name="phone" size={20} /> {site.phone}</a>
+      </div>
+      <div class="nf__links">
+        <h2>שירותים פופולריים</h2>
+        <ul>
+          {services.slice(0, 6).map((s) => (
+            <li><a href={s.href}><Icon name="chevron-left" size={15} />{s.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf { padding-block: clamp(3rem, 8vw, 6rem); background: linear-gradient(160deg, var(--c-brand-50), #fff 70%); }
+  .nf__inner { max-width: 640px; text-align: center; }
+  .nf__code { font-size: clamp(4rem, 14vw, 8rem); font-weight: 800; color: var(--c-brand); line-height: 1; letter-spacing: -.03em; }
+  .nf h1 { margin: .5rem 0 1rem; }
+  .nf p { font-size: var(--fs-lg); color: var(--c-body); }
+  .nf__cta { display: flex; gap: .8rem; justify-content: center; flex-wrap: wrap; margin: 1.8rem 0; }
+  .nf__links { margin-top: 2.5rem; text-align: start; }
+  .nf__links h2 { font-size: var(--fs-xl); margin-bottom: 1rem; text-align: center; }
+  .nf__links ul { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+  .nf__links a { display: flex; align-items: center; gap: .3rem; padding: .7rem .9rem; background: #fff; border: 1px solid var(--c-line); border-radius: var(--radius-sm); color: var(--c-body); font-weight: 600; font-size: var(--fs-sm); }
+  .nf__links a:hover { border-color: var(--c-brand); color: var(--c-brand-600); }
+  .nf__links svg { color: var(--c-brand); }
+  @media (max-width: 480px) { .nf__links ul { grid-template-columns: 1fr; } }
+</style>
