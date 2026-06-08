@@ -41,9 +41,7 @@ jobs:
           protocol: ftps                          # מאובטח (FTPS). אם נכשל -> ftp
           local-dir: ./dist/                      # תוצר הבנייה של Astro
           server-dir: ${{ secrets.FTP_REMOTE_DIR }} # למשל: /public_html/  (או /domains/plumbernow.co.il/public_html/)
-          # ניקוי מלא של התיקייה לפני ההעלאה — מסיר את שאריות וורדפרס (cutover נקי).
-          # אחרי ה-deploy הנקי הראשון נסיר את השורה הזו כדי שההעלאות הבאות יהיו מהירות (incremental).
-          dangerous-clean-slate: true
+          # הערה: ניקוי שאריות וורדפרס ייעשה ידנית דרך File Manager (מחיקת FTP המונית איטית מדי).
           exclude: |
             **/.git*
             **/.git*/**
