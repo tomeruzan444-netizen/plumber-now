@@ -1,0 +1,48 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Assistant',sans-serif; }
+  .badge { width:512px; height:512px; }
+  #og {
+    width:1200px; height:630px;
+    background:linear-gradient(160deg,#e6f6fc 0%,#ffffff 60%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px;
+    position:relative; overflow:hidden;
+  }
+  #og::after { content:''; position:absolute; inset:0; border:14px solid #00a6e0; opacity:.08; }
+  .og-row { display:flex; align-items:center; gap:28px; }
+  .og-row svg { width:150px; height:150px; }
+  .og-name { font-weight:800; font-size:88px; letter-spacing:-2px; }
+  .og-name .nv{color:#0a2540;} .og-name .cy{color:#00a6e0;}
+  .og-tag { font-weight:700; font-size:34px; color:#64748b; }
+  .og-phone { font-weight:800; font-size:30px; color:#16a34a; }
+</style></head><body>
+
+<!-- אייקון לבד (favicon) -->
+<svg id="badge" class="badge" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#11b6e8"/><stop offset="1" stop-color="#0a2540"/></linearGradient></defs>
+  <rect x="1" y="1" width="46" height="46" rx="13" fill="url(#g)"/>
+  <path d="M24 10 C24 10 34.5 22.5 34.5 30 A10.5 10.5 0 1 1 13.5 30 C13.5 22.5 24 10 24 10 Z" fill="#fff"/>
+  <circle cx="24" cy="30.5" r="4.6" fill="#00a6e0"/>
+  <circle cx="20.5" cy="26.5" r="1.7" fill="#fff" opacity="0.85"/>
+</svg>
+
+<!-- כרטיס שיתוף og -->
+<div id="og">
+  <div class="og-row">
+    <span class="og-name"><span class="nv">אינסטלטור</span> <span class="cy">עכשיו</span></span>
+    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#11b6e8"/><stop offset="1" stop-color="#0a2540"/></linearGradient></defs>
+      <rect x="1" y="1" width="46" height="46" rx="13" fill="url(#g2)"/>
+      <path d="M24 10 C24 10 34.5 22.5 34.5 30 A10.5 10.5 0 1 1 13.5 30 C13.5 22.5 24 10 24 10 Z" fill="#fff"/>
+      <circle cx="24" cy="30.5" r="4.6" fill="#00a6e0"/>
+      <circle cx="20.5" cy="26.5" r="1.7" fill="#fff" opacity="0.85"/>
+    </svg>
+  </div>
+  <div class="og-tag">כל עבודות האינסטלציה במקום אחד · מחירונים שקופים</div>
+  <div class="og-phone">052-4025710 · שירות בכל הארץ</div>
+</div>
+
+</body></html>

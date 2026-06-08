@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import Logo from './Logo.astro';
 import { site, nav } from '../data/site';
 const path = Astro.url.pathname;
 const isActive = (href: string) => href === '/' ? path === '/' : path.startsWith(href);
@@ -17,7 +18,7 @@ const isActive = (href: string) => href === '/' ? path === '/' : path.startsWith
   <div class="hdr__main">
     <div class="container hdr__row">
       <a href="/" class="hdr__logo" aria-label={site.name}>
-        <img src="/images/logo.webp" width="150" height="63" alt={site.name} fetchpriority="high" />
+        <Logo />
       </a>
 
       <nav class="hdr__nav" aria-label="ניווט ראשי">

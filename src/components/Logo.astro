@@ -1,0 +1,47 @@
+---
+/**
+ * לוגו אינסטלטור עכשיו — אייקון SVG (טיפה בתג מדורג) + שם החברה בפונט המותג.
+ * variant="dark" — לשימוש על רקע כהה (פוטר).
+ */
+interface Props { dark?: boolean; class?: string; }
+const { dark = false, class: cls = '' } = Astro.props;
+---
+<span class={`logo ${dark ? 'logo--dark' : ''} ${cls}`}>
+  <svg class="logo__icon" viewBox="0 0 48 48" role="img" aria-label="אינסטלטור עכשיו">
+    <defs>
+      <linearGradient id="logoBadge" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#11b6e8" />
+        <stop offset="1" stop-color="#0a2540" />
+      </linearGradient>
+    </defs>
+    <rect x="1" y="1" width="46" height="46" rx="13" fill="url(#logoBadge)" />
+    <path d="M24 10 C24 10 34.5 22.5 34.5 30 A10.5 10.5 0 1 1 13.5 30 C13.5 22.5 24 10 24 10 Z" fill="#fff" />
+    <circle cx="24" cy="30.5" r="4.6" fill="#00a6e0" />
+    <circle cx="20.5" cy="26.5" r="1.7" fill="#fff" opacity="0.85" />
+  </svg>
+  <span class="logo__text">
+    <span class="logo__name"><b class="logo__nv">אינסטלטור</b> <b class="logo__cy">עכשיו</b></span>
+    <span class="logo__tag">פורטל האינסטלציה</span>
+  </span>
+</span>
+
+<style>
+  .logo { display: inline-flex; align-items: center; gap: .6rem; line-height: 1; }
+  .logo__icon { width: 46px; height: 46px; flex-shrink: 0; }
+  .logo__text { display: flex; flex-direction: column; gap: .15rem; }
+  .logo__name { font-weight: 800; font-size: 1.5rem; letter-spacing: -.01em; }
+  .logo__nv { color: var(--c-navy); }
+  .logo__cy { color: var(--c-brand); }
+  .logo__tag { font-size: .72rem; font-weight: 600; color: var(--c-muted); letter-spacing: .02em; }
+
+  /* רקע כהה (פוטר) */
+  .logo--dark .logo__nv { color: #fff; }
+  .logo--dark .logo__cy { color: var(--c-brand); }
+  .logo--dark .logo__tag { color: #94a3b8; }
+
+  @media (max-width: 480px) {
+    .logo__name { font-size: 1.3rem; }
+    .logo__icon { width: 40px; height: 40px; }
+    .logo__tag { font-size: .66rem; }
+  }
+</style>

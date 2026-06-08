@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import Logo from './Logo.astro';
 import { site, services, regions } from '../data/site';
 const year = 2026;
 const allRegions = [regions.center, regions.north, regions.south];
@@ -8,7 +9,7 @@ const allRegions = [regions.center, regions.north, regions.south];
   <div class="container ftr__grid">
     <!-- brand -->
     <div class="ftr__brand">
-      <img src="/images/logo.webp" width="160" height="67" alt={site.name} class="ftr__logo" />
+      <Logo dark class="ftr__logo" />
       <p class="ftr__tag">פורטל האינסטלציה המוביל בישראל — כל עבודות האינסטלציה במקום אחד, עם מחירונים שקופים ושירות מקצועי בכל הארץ.</p>
       <div class="ftr__contact">
         <a href={`tel:${site.phoneRaw}`}><Icon name="phone" size={16} /> {site.phone}</a>
@@ -48,7 +49,7 @@ const allRegions = [regions.center, regions.north, regions.south];
 <style>
   .ftr { background: var(--c-navy); color: #cbd5e1; margin-top: 3rem; }
   .ftr__grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; gap: 2rem; padding-block: 3rem; }
-  .ftr__logo { background: #fff; padding: .5rem .8rem; border-radius: 10px; width: 160px; height: auto; margin-bottom: 1rem; }
+  .ftr__logo { margin-bottom: 1rem; }
   .ftr__tag { font-size: var(--fs-sm); line-height: 1.7; color: #94a3b8; }
   .ftr__contact { display: grid; gap: .5rem; margin-top: 1rem; }
   .ftr__contact a, .ftr__contact span { display: inline-flex; align-items: center; gap: .5rem; color: #cbd5e1; font-size: var(--fs-sm); }
