@@ -1,0 +1,48 @@
+name: Build & Deploy to Hostinger
+
+# כל push לענף main -> בנייה אוטומטית של Astro -> העלאה להוסטינגר ב-FTP
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # אפשרות להפעלה ידנית מ-GitHub
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Deploy to Hostinger via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}      # למשל: ftp.plumbernow.co.il
+          username: ${{ secrets.FTP_USERNAME }}  # שם משתמש FTP מהוסטינגר
+          password: ${{ secrets.FTP_PASSWORD }}  # סיסמת FTP מהוסטינגר
+          protocol: ftps                          # מאובטח (FTPS). אם נכשל -> ftp
+          local-dir: ./dist/                      # תוצר הבנייה של Astro
+          server-dir: ${{ secrets.FTP_REMOTE_DIR }} # למשל: /public_html/  (או /domains/plumbernow.co.il/public_html/)
+          # שומר קבצים שלא נוצרים על ידי הבנייה (למשל .well-known, אימותים)
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**

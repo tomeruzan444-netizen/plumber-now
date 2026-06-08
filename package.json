@@ -1,0 +1,21 @@
+{
+  "name": "plumbernow",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.3.0",
+    "@fontsource-variable/assistant": "^5.1.0",
+    "astro": "^5.7.0",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.60.0"
+  }
+}

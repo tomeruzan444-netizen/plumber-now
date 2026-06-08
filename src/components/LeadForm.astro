@@ -1,0 +1,53 @@
+---
+import Icon from './Icon.astro';
+interface Props { title?: string; subtitle?: string; compact?: boolean; }
+const {
+  title = 'קבלו הצעת מחיר עכשיו',
+  subtitle = 'השאירו פרטים ואינסטלטור מקצועי יחזור אליכם במהירות',
+  compact = false,
+} = Astro.props;
+---
+<form class={`lead ${compact ? 'lead--compact' : ''}`} method="POST" action="#" data-leadform>
+  <div class="lead__head">
+    <h3 class="lead__title"><Icon name="send" size={20} /> {title}</h3>
+    <p class="lead__sub">{subtitle}</p>
+  </div>
+  <div class="lead__fields">
+    <label class="sr-only" for="lf-name">שם מלא</label>
+    <div class="lead__field"><Icon name="user" size={18} /><input id="lf-name" name="name" type="text" placeholder="שם מלא" required autocomplete="name" /></div>
+
+    <label class="sr-only" for="lf-phone">טלפון נייד</label>
+    <div class="lead__field"><Icon name="phone" size={18} /><input id="lf-phone" name="phone" type="tel" placeholder="טלפון נייד" required autocomplete="tel" pattern="0[0-9\-]{8,12}" /></div>
+
+    <label class="sr-only" for="lf-city">עיר</label>
+    <div class="lead__field"><Icon name="map-pin" size={18} /><input id="lf-city" name="city" type="text" placeholder="עיר" autocomplete="address-level2" /></div>
+  </div>
+  <button class="btn btn--cta btn--block btn--lg" type="submit">שליחה וקבלת הצעה</button>
+  <p class="lead__note"><Icon name="shield" size={14} /> הפרטים שלכם מאובטחים ולא מועברים לגורם שלישי</p>
+</form>
+
+<style>
+  .lead { background: #fff; border: 1px solid var(--c-line); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-lg); }
+  .lead__head { margin-bottom: 1.1rem; }
+  .lead__title { display: flex; align-items: center; gap: .5rem; font-size: var(--fs-xl); color: var(--c-navy); }
+  .lead__sub { color: var(--c-muted); font-size: var(--fs-sm); margin: .35rem 0 0; }
+  .lead__fields { display: grid; gap: .7rem; margin-bottom: 1rem; }
+  .lead__field { display: flex; align-items: center; gap: .6rem; border: 1.5px solid var(--c-line); border-radius: var(--radius-sm); padding: 0 .9rem; background: var(--c-bg-soft); transition: border-color .15s, background .15s; }
+  .lead__field:focus-within { border-color: var(--c-brand); background: #fff; }
+  .lead__field svg { color: var(--c-muted); flex-shrink: 0; }
+  .lead__field input { border: none; background: none; outline: none; padding: .85rem 0; width: 100%; font: inherit; color: var(--c-ink); }
+  .lead__note { display: flex; align-items: center; justify-content: center; gap: .35rem; color: var(--c-muted); font-size: var(--fs-xs); margin: .8rem 0 0; }
+  .lead--compact { padding: 1.15rem; border-radius: var(--radius); }
+  .lead--compact .lead__title { font-size: var(--fs-lg); }
+</style>
+
+<script>
+  // placeholder handler — יחובר בהמשך ל-endpoint/Webhook אמיתי
+  document.querySelectorAll('[data-leadform]').forEach((f) => {
+    f.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('תודה! קיבלנו את הפרטים ונחזור אליכם בהקדם.');
+      (f as HTMLFormElement).reset();
+    });
+  });
+</script>

@@ -1,0 +1,68 @@
+---
+import Icon from './Icon.astro';
+import { site, services, regions } from '../data/site';
+const year = 2026;
+const allRegions = [regions.center, regions.north, regions.south];
+---
+<footer class="ftr">
+  <div class="container ftr__grid">
+    <!-- brand -->
+    <div class="ftr__brand">
+      <img src="/images/logo.webp" width="160" height="67" alt={site.name} class="ftr__logo" />
+      <p class="ftr__tag">פורטל האינסטלציה המוביל בישראל — כל עבודות האינסטלציה במקום אחד, עם מחירונים שקופים ושירות מקצועי בכל הארץ.</p>
+      <div class="ftr__contact">
+        <a href={`tel:${site.phoneRaw}`}><Icon name="phone" size={16} /> {site.phone}</a>
+        <a href={`mailto:${site.email}`}><Icon name="mail" size={16} /> {site.email}</a>
+        <span><Icon name="map-pin" size={16} /> {site.serviceArea}</span>
+      </div>
+    </div>
+
+    <!-- services -->
+    <div class="ftr__col">
+      <h4>שירותי אינסטלציה</h4>
+      <ul>{services.slice(0, 7).map((s) => <li><a href={s.href}>{s.label}</a></li>)}</ul>
+    </div>
+
+    <!-- regions -->
+    {allRegions.map((r) => (
+      <div class="ftr__col">
+        <h4><a href={r.href}>אינסטלטור ב{r.label}</a></h4>
+        <ul>{r.cities.slice(0, 7).map((c) => <li><a href={c.href}>{c.label}</a></li>)}</ul>
+      </div>
+    ))}
+  </div>
+
+  <div class="ftr__bar">
+    <div class="container ftr__bar-row">
+      <p>© {year} {site.name} — כל הזכויות שמורות</p>
+      <nav class="ftr__legal" aria-label="קישורים משפטיים">
+        <a href="/אודות/">אודות</a>
+        <a href="/צרו-קשר/">צרו קשר</a>
+        <a href="/תנאי-שימוש/">תנאי שימוש</a>
+        <a href="/הצהרת-נגישות/">הצהרת נגישות</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ftr { background: var(--c-navy); color: #cbd5e1; margin-top: 3rem; }
+  .ftr__grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; gap: 2rem; padding-block: 3rem; }
+  .ftr__logo { background: #fff; padding: .5rem .8rem; border-radius: 10px; width: 160px; height: auto; margin-bottom: 1rem; }
+  .ftr__tag { font-size: var(--fs-sm); line-height: 1.7; color: #94a3b8; }
+  .ftr__contact { display: grid; gap: .5rem; margin-top: 1rem; }
+  .ftr__contact a, .ftr__contact span { display: inline-flex; align-items: center; gap: .5rem; color: #cbd5e1; font-size: var(--fs-sm); }
+  .ftr__contact a:hover { color: var(--c-brand); }
+  .ftr__col h4 { color: #fff; font-size: var(--fs-base); margin-bottom: .9rem; }
+  .ftr__col h4 a { color: #fff; }
+  .ftr__col ul { list-style: none; padding: 0; margin: 0; display: grid; gap: .5rem; }
+  .ftr__col a { color: #94a3b8; font-size: var(--fs-sm); }
+  .ftr__col a:hover { color: var(--c-brand); }
+  .ftr__bar { border-top: 1px solid rgba(255,255,255,.1); }
+  .ftr__bar-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; padding-block: 1.2rem; font-size: var(--fs-sm); color: #94a3b8; }
+  .ftr__legal { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+  .ftr__legal a { color: #94a3b8; }
+  .ftr__legal a:hover { color: var(--c-brand); }
+  @media (max-width: 900px) { .ftr__grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; } }
+  @media (max-width: 540px) { .ftr__grid { grid-template-columns: 1fr; } .ftr__bar-row { flex-direction: column; text-align: center; } }
+</style>

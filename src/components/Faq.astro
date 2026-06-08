@@ -1,0 +1,39 @@
+---
+import Icon from './Icon.astro';
+interface Props { items: { q: string; a: string }[]; title?: string; }
+const { items, title = 'שאלות ותשובות נפוצות' } = Astro.props;
+---
+{items?.length > 0 && (
+  <section class="faq" aria-labelledby="faq-title">
+    <h2 id="faq-title">{title}</h2>
+    <div class="faq__list">
+      {items.map((it, i) => (
+        <details class="faq__item" open={i === 0}>
+          <summary>
+            <span>{it.q}</span>
+            <Icon name="chevron-down" size={20} class="faq__chev" />
+          </summary>
+          <div class="faq__a"><p>{it.a}</p></div>
+        </details>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .faq { margin-top: 2.5rem; }
+  .faq > h2 { margin-bottom: 1.2rem; }
+  .faq__list { display: grid; gap: .7rem; }
+  .faq__item { border: 1px solid var(--c-line); border-radius: var(--radius); background: #fff; box-shadow: var(--shadow-sm); overflow: hidden; }
+  .faq__item[open] { border-color: var(--c-brand); }
+  .faq__item summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 1.1rem 1.3rem; cursor: pointer; font-weight: 700; color: var(--c-navy);
+    font-size: var(--fs-lg); list-style: none;
+  }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  .faq__chev { color: var(--c-brand); transition: transform .2s ease; flex-shrink: 0; }
+  .faq__item[open] .faq__chev { transform: rotate(180deg); }
+  .faq__a { padding: 0 1.3rem 1.2rem; color: var(--c-body); }
+  .faq__a p { margin: 0; }
+</style>

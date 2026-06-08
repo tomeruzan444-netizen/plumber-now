@@ -1,0 +1,66 @@
+---
+import '../styles/global.css';
+
+export interface SeoProps {
+  title: string;            // כותרת SEO (כפי שהיה ב-Rank Math)
+  description: string;
+  canonical?: string;       // URL קנוני מדויק (נשמר 1:1)
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  ogType?: string;
+  robots?: string;
+  jsonLd?: object[];        // בלוקי Schema/JSON-LD
+}
+const {
+  title, description, canonical,
+  ogTitle, ogDescription, ogImage, ogType = 'website',
+  robots = 'index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large',
+  jsonLd = [],
+} = Astro.props as SeoProps;
+
+const canon = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+const ogImg = ogImage ?? new URL('/images/logo.png', Astro.site).href;
+---
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#00a6e0" />
+
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="robots" content={robots} />
+  <link rel="canonical" href={canon} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content={ogType} />
+  <meta property="og:locale" content="he_IL" />
+  <meta property="og:site_name" content="אינסטלטור עכשיו" />
+  <meta property="og:title" content={ogTitle ?? title} />
+  <meta property="og:description" content={ogDescription ?? description} />
+  <meta property="og:url" content={canon} />
+  <meta property="og:image" content={ogImg} />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+  <link rel="apple-touch-icon" href="/favicon-192.png" />
+
+  <!-- Schema / JSON-LD -->
+  {jsonLd.map((block) => (
+    <script type="application/ld+json" set:html={JSON.stringify(block)} />
+  ))}
+</head>
+<body>
+  <a href="#main" class="skip-link">דלג לתוכן הראשי</a>
+  <slot name="header" />
+  <main id="main">
+    <slot />
+  </main>
+  <slot name="footer" />
+  <slot name="floating" />
+</body>
+</html>

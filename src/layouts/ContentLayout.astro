@@ -1,0 +1,118 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FloatingCTA from '../components/FloatingCTA.astro';
+import Sidebar from '../components/Sidebar.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Faq from '../components/Faq.astro';
+import HubLinks from '../components/HubLinks.astro';
+import Icon from '../components/Icon.astro';
+import '../styles/prose.css';
+import { site } from '../data/site';
+
+interface Props {
+  data: any;
+  kind: 'cities' | 'services' | 'regions' | 'static';
+  crumbs: { label: string; href?: string }[];
+  h1: string;
+  hub?: { variant: string; region?: string; showBody: boolean };
+}
+const { data, kind, crumbs, h1, hub } = Astro.props;
+const showBody = hub?.showBody !== false;
+
+const canon = data.canonical || new URL(`/${data.slug}/`, Astro.site).href;
+
+// ----- Schema / JSON-LD -----
+const jsonLd: object[] = [];
+jsonLd.push({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'ראשי', item: site.url + '/' },
+    ...crumbs.map((c, i) => ({
+      '@type': 'ListItem', position: i + 2, name: c.label,
+      item: c.href ? new URL(c.href, Astro.site).href : canon,
+    })),
+  ],
+});
+if (data.faq?.length) {
+  jsonLd.push({
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: data.faq.map((f: any) => ({
+      '@type': 'Question', name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  });
+}
+jsonLd.push({
+  '@context': 'https://schema.org', '@type': 'LocalBusiness',
+  name: site.name, url: canon, telephone: site.phone, email: site.email, areaServed: 'IL',
+  image: data.ogImage || `${site.url}/images/logo.png`,
+});
+
+const stats = [
+  { icon: 'clock', label: 'הגעה מהירה' },
+  { icon: 'banknote', label: 'מחיר מראש' },
+  { icon: 'shield-check', label: 'אחריות מלאה' },
+];
+---
+<BaseLayout
+  title={data.seoTitle}
+  description={data.description}
+  canonical={canon}
+  ogImage={data.ogImage || undefined}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+  <Header slot="header" />
+  <Footer slot="footer" />
+  <FloatingCTA slot="floating" />
+
+  <!-- HERO -->
+  <section class="phero">
+    <div class="container">
+      <Breadcrumbs items={crumbs} />
+      <h1>{h1}</h1>
+      {data.description && <p class="phero__lead">{data.description}</p>}
+      <div class="phero__cta">
+        <a class="btn btn--cta btn--lg" href={`tel:${site.phoneRaw}`}><Icon name="phone" size={20} /> {site.phone}</a>
+        <a class="btn btn--ghost" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener"><Icon name="whatsapp" size={18} /> וואטסאפ</a>
+      </div>
+      <ul class="phero__stats">
+        {stats.map((s) => <li><Icon name={s.icon} size={18} /> {s.label}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <div class="container layout">
+    <article class="layout__main">
+      {showBody && (
+        <div class="prose">
+          <slot />
+        </div>
+      )}
+      {hub?.variant && <HubLinks variant={hub.variant as any} region={hub.region as any} />}
+      {data.faq?.length > 0 && <Faq items={data.faq} />}
+    </article>
+    <Sidebar kind={kind} slug={data.slug} />
+  </div>
+</BaseLayout>
+
+<style>
+  .phero { background: linear-gradient(160deg, var(--c-brand-50), #fff 70%); padding-block: clamp(1.5rem, 4vw, 2.5rem) clamp(1.5rem, 4vw, 2.5rem); border-bottom: 1px solid var(--c-line); }
+  .phero h1 { margin: .8rem 0 .6rem; font-size: clamp(1.8rem, 4.5vw, 2.9rem); }
+  .phero__lead { font-size: var(--fs-lg); color: var(--c-body); max-width: 65ch; margin: 0; }
+  .phero__cta { display: flex; gap: .7rem; flex-wrap: wrap; margin-top: 1.3rem; }
+  .phero__stats { display: flex; gap: 1.4rem; flex-wrap: wrap; list-style: none; padding: 0; margin: 1.2rem 0 0; }
+  .phero__stats li { display: inline-flex; align-items: center; gap: .4rem; color: var(--c-navy); font-weight: 600; font-size: var(--fs-sm); }
+  .phero__stats svg { color: var(--c-brand); }
+
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: clamp(1.5rem, 4vw, 3rem); padding-block: clamp(2rem, 5vw, 3.5rem); align-items: start; }
+  .layout__main { min-width: 0; }
+
+  @media (max-width: 980px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+</style>

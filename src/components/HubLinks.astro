@@ -1,0 +1,99 @@
+---
+import Icon from './Icon.astro';
+import { services, regions } from '../data/site';
+import { citiesByRegion, regionMeta, cityHref, type Region } from '../data/cities';
+
+interface Props { variant: 'clog' | 'all-regions' | 'region'; region?: Region; }
+const { variant, region } = Astro.props;
+
+// 5 עמודי המשנה של פתיחת סתימות
+const clog = [
+  { label: 'פתיחת סתימה בכיור', href: '/פתיחת-סתימה-בכיור/', icon: 'droplet' },
+  { label: 'פתיחת סתימה באמבטיה', href: '/פתיחת-סתימה-באמבטיה/', icon: 'droplet' },
+  { label: 'פתיחת סתימה במקלחת', href: '/פתיחת-סתימה-במקלחת/', icon: 'droplet' },
+  { label: 'פתיחת סתימה בשירותים', href: '/פתיחת-סתימה-בשירותים/', icon: 'droplet' },
+  { label: 'פתיחת סתימה בביוב', href: '/פתיחת-סתימה-בביוב/', icon: 'tools' },
+];
+const allRegions: Region[] = ['center', 'north', 'south'];
+---
+{variant === 'clog' && (
+  <div class="hub">
+    <div class="hub__cards">
+      {clog.map((c) => (
+        <a class="hub__card" href={c.href}>
+          <span class="hub__ic"><Icon name={c.icon} size={24} /></span>
+          <span class="hub__label">{c.label}</span>
+          <Icon name="arrow-left" size={16} class="hub__arrow" />
+        </a>
+      ))}
+    </div>
+  </div>
+)}
+
+{variant === 'region' && region && (
+  <div class="hub">
+    <h2>אינסטלטור בכל הערים ב{regionMeta[region].label}</h2>
+    <div class="hub__cities">
+      {citiesByRegion(region).map((c) => (
+        <a class="hub__city" href={cityHref(c)}><Icon name="map-pin" size={16} />{c.label}</a>
+      ))}
+    </div>
+  </div>
+)}
+
+{variant === 'all-regions' && (
+  <div class="hub">
+    {allRegions.map((r) => (
+      <div class="hub__region">
+        <h2><Icon name="map-pin" size={20} /> <a href={regionMeta[r].href}>אינסטלטור ב{regionMeta[r].label}</a></h2>
+        <div class="hub__cities">
+          {citiesByRegion(r).map((c) => (
+            <a class="hub__city" href={cityHref(c)}><Icon name="map-pin" size={16} />{c.label}</a>
+          ))}
+        </div>
+      </div>
+    ))}
+    <div class="hub__services">
+      <h2><Icon name="wrench" size={20} /> שירותי אינסטלציה</h2>
+      <div class="hub__cards">
+        {services.map((s) => (
+          <a class="hub__card" href={s.href}>
+            <span class="hub__ic"><Icon name={s.icon} size={24} /></span>
+            <span class="hub__label">{s.label}</span>
+            <Icon name="arrow-left" size={16} class="hub__arrow" />
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
+<style>
+  .hub { margin-top: 1.5rem; }
+  .hub h2 { display: flex; align-items: center; gap: .5rem; font-size: var(--fs-xl); margin: 2rem 0 1rem; }
+  .hub h2 svg { color: var(--c-brand); }
+  .hub__region { margin-bottom: 1.5rem; }
+
+  .hub__cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .9rem; }
+  .hub__card {
+    display: flex; align-items: center; gap: .8rem; padding: 1.1rem 1.2rem;
+    background: #fff; border: 1px solid var(--c-line); border-radius: var(--radius);
+    box-shadow: var(--shadow-sm); color: var(--c-navy); font-weight: 700;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+  }
+  .hub__card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--c-brand); color: var(--c-brand-600); }
+  .hub__ic { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 11px; background: var(--c-brand-50); color: var(--c-brand-600); flex-shrink: 0; }
+  .hub__label { flex-grow: 1; }
+  .hub__arrow { color: var(--c-brand); }
+
+  .hub__cities { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .6rem; }
+  .hub__city {
+    display: flex; align-items: center; gap: .4rem; padding: .7rem .9rem;
+    background: var(--c-bg-soft); border: 1px solid var(--c-line); border-radius: var(--radius-sm);
+    color: var(--c-body); font-weight: 600; font-size: var(--fs-sm);
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .hub__city:hover { background: var(--c-brand-50); border-color: var(--c-brand); color: var(--c-brand-600); }
+  .hub__city svg { color: var(--c-brand); flex-shrink: 0; }
+  .hub__services { margin-top: 1.5rem; }
+</style>

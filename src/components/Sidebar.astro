@@ -1,0 +1,93 @@
+---
+import Icon from './Icon.astro';
+import LeadForm from './LeadForm.astro';
+import { site, services, regions } from '../data/site';
+
+interface Props { kind: 'cities' | 'services' | 'regions' | 'static'; slug: string; }
+const { kind, slug } = Astro.props;
+
+const allRegions = [regions.center, regions.north, regions.south];
+const path = '/' + slug + '/';
+
+// איתור האזור של עיר נוכחית + ערים סמוכות
+let nearby: { label: string; href: string }[] = [];
+let regionLabel = '';
+if (kind === 'cities') {
+  for (const r of allRegions) {
+    if (r.cities.some((c) => c.href === path)) {
+      regionLabel = r.label;
+      nearby = r.cities.filter((c) => c.href !== path).slice(0, 8);
+      break;
+    }
+  }
+  if (!nearby.length) nearby = regions.center.cities.filter((c) => c.href !== path).slice(0, 8);
+}
+const otherServices = services.filter((s) => s.href !== path).slice(0, 7);
+---
+<aside class="sb">
+  <!-- טופס ליד דביק -->
+  <div class="sb__sticky">
+    <LeadForm compact title="קבלו הצעת מחיר" subtitle="השאירו פרטים ונחזור אליכם מהר" />
+
+    <!-- כרטיס חיוג -->
+    <div class="sb__call card">
+      <span class="sb__call-ic"><Icon name="phone" size={22} /></span>
+      <div>
+        <strong>זמינים עכשיו</strong>
+        <a href={`tel:${site.phoneRaw}`} class="sb__call-num">{site.phone}</a>
+      </div>
+    </div>
+  </div>
+
+  {kind === 'cities' && nearby.length > 0 && (
+    <div class="sb__box card">
+      <h3 class="sb__title"><Icon name="map-pin" size={18} /> אינסטלטור באזור {regionLabel}</h3>
+      <ul class="sb__links">
+        {nearby.map((c) => <li><a href={c.href}><Icon name="chevron-left" size={14} />{c.label}</a></li>)}
+      </ul>
+    </div>
+  )}
+
+  {(kind === 'cities' || kind === 'regions' || kind === 'static') && (
+    <div class="sb__box card">
+      <h3 class="sb__title"><Icon name="wrench" size={18} /> שירותי אינסטלציה</h3>
+      <ul class="sb__links">
+        {otherServices.map((s) => <li><a href={s.href}><Icon name="chevron-left" size={14} />{s.label}</a></li>)}
+      </ul>
+    </div>
+  )}
+
+  {kind === 'services' && (
+    <>
+      <div class="sb__box card">
+        <h3 class="sb__title"><Icon name="wrench" size={18} /> שירותים נוספים</h3>
+        <ul class="sb__links">
+          {otherServices.map((s) => <li><a href={s.href}><Icon name="chevron-left" size={14} />{s.label}</a></li>)}
+        </ul>
+      </div>
+      <div class="sb__box card">
+        <h3 class="sb__title"><Icon name="map-pin" size={18} /> אזורי שירות</h3>
+        <ul class="sb__links">
+          {allRegions.map((r) => <li><a href={r.href}><Icon name="chevron-left" size={14} />אינסטלטור ב{r.label}</a></li>)}
+        </ul>
+      </div>
+    </>
+  )}
+</aside>
+
+<style>
+  .sb { display: grid; gap: 1.2rem; align-content: start; }
+  .sb__sticky { display: grid; gap: 1.2rem; } /* נגלל עם העמוד — ללא sticky */
+  .sb__call { display: flex; align-items: center; gap: .9rem; padding: 1rem 1.2rem; background: var(--c-navy); border: none; }
+  .sb__call-ic { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--c-cta); color: #fff; flex-shrink: 0; }
+  .sb__call strong { display: block; color: #94a3b8; font-size: var(--fs-xs); font-weight: 600; }
+  .sb__call-num { display: block; color: #fff; font-size: var(--fs-xl); font-weight: 800; }
+  .sb__call-num:hover { color: var(--c-brand); }
+  .sb__box { padding: 1.2rem; }
+  .sb__title { display: flex; align-items: center; gap: .5rem; font-size: var(--fs-base); margin-bottom: .8rem; padding-bottom: .7rem; border-bottom: 2px solid var(--c-brand-50); }
+  .sb__title svg { color: var(--c-brand); }
+  .sb__links { list-style: none; padding: 0; margin: 0; display: grid; gap: .15rem; }
+  .sb__links a { display: flex; align-items: center; gap: .3rem; padding: .5rem .3rem; color: var(--c-body); font-size: var(--fs-sm); border-radius: 8px; }
+  .sb__links a:hover { background: var(--c-brand-50); color: var(--c-brand-600); }
+  .sb__links svg { color: var(--c-brand); flex-shrink: 0; }
+</style>

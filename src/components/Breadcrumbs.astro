@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+interface Crumb { label: string; href?: string; }
+interface Props { items: Crumb[]; }
+const { items } = Astro.props;
+---
+<nav class="bc" aria-label="פירורי לחם">
+  <ol>
+    <li><a href="/"><Icon name="home" size={15} /> ראשי</a></li>
+    {items.map((c, i) => (
+      <li>
+        <Icon name="chevron-left" size={14} class="bc__sep" />
+        {c.href && i < items.length - 1 ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .bc { font-size: var(--fs-sm); }
+  .bc ol { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; list-style: none; padding: 0; margin: 0; }
+  .bc li { display: inline-flex; align-items: center; gap: .25rem; color: var(--c-muted); }
+  .bc a { color: var(--c-muted); display: inline-flex; align-items: center; gap: .25rem; }
+  .bc a:hover { color: var(--c-brand-600); }
+  .bc span { color: var(--c-navy); font-weight: 600; }
+  .bc__sep { color: var(--c-line); flex-shrink: 0; }
+</style>

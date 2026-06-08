@@ -1,0 +1,71 @@
+/* ============================================================
+   .prose — עיצוב תוכן המאמרים (התוכן שעבר מיגרציה)
+   ============================================================ */
+.prose { color: var(--c-body); font-size: var(--fs-base); line-height: var(--lh); }
+.prose > * + * { margin-top: 1.1rem; }
+
+.prose h2 {
+  font-size: var(--fs-2xl); margin-top: 2.4rem; padding-bottom: .5rem;
+  position: relative;
+}
+.prose h2::after {
+  content: ''; position: absolute; bottom: 0; inset-inline-start: 0;
+  width: 56px; height: 3px; background: var(--c-brand); border-radius: 2px;
+}
+.prose h3 { font-size: var(--fs-xl); margin-top: 1.8rem; }
+.prose h4 { font-size: var(--fs-lg); margin-top: 1.4rem; color: var(--c-navy); }
+
+.prose p { margin: 0; }
+.prose a { color: var(--c-brand-600); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--c-brand-50); }
+.prose a:hover { color: var(--c-navy); text-decoration-color: var(--c-brand); }
+
+.prose ul, .prose ol { padding-inline-start: 0; list-style: none; display: grid; gap: .6rem; margin-block: .6rem; }
+.prose ul li { position: relative; padding-inline-start: 1.9rem; }
+.prose ul li::before {
+  content: ''; position: absolute; inset-inline-start: 0; top: .35em;
+  width: 1.1rem; height: 1.1rem; border-radius: 50%;
+  background: var(--c-brand-50) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2300a6e0' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / .7rem no-repeat;
+}
+.prose ol { counter-reset: li; }
+.prose ol li { position: relative; padding-inline-start: 2.2rem; counter-increment: li; }
+.prose ol li::before {
+  content: counter(li); position: absolute; inset-inline-start: 0; top: .1em;
+  width: 1.5rem; height: 1.5rem; display: grid; place-items: center;
+  background: var(--c-brand); color: #fff; border-radius: 50%; font-size: .8rem; font-weight: 700;
+}
+
+/* תיבות הדגשה (callouts) — מ-blockquote */
+.prose blockquote {
+  background: linear-gradient(0deg, var(--c-brand-50), #fff);
+  border: 1px solid var(--c-brand); border-inline-start: 4px solid var(--c-brand);
+  border-radius: var(--radius); padding: 1.1rem 1.3rem; margin-block: 1.4rem;
+  position: relative;
+}
+.prose blockquote p { margin: 0; }
+.prose blockquote p + p { margin-top: .6rem; }
+.prose blockquote strong:first-child { color: var(--c-navy); }
+
+/* טבלאות מחירון */
+.prose table {
+  width: 100%; border-collapse: collapse; margin-block: 1.4rem;
+  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm);
+  border: 1px solid var(--c-line); font-size: var(--fs-sm);
+}
+.prose thead th {
+  background: var(--c-navy); color: #fff; font-weight: 700; text-align: start;
+  padding: .85rem 1.1rem; font-size: var(--fs-base);
+}
+.prose tbody td { padding: .8rem 1.1rem; border-top: 1px solid var(--c-line); }
+.prose tbody tr:nth-child(even) { background: var(--c-bg-soft); }
+.prose tbody tr:hover { background: var(--c-brand-50); }
+/* עמודת מחיר (אחרונה) — בולטת */
+.prose tbody td:last-child { font-weight: 800; color: var(--c-brand-600); white-space: nowrap; }
+
+.prose img { border-radius: var(--radius); box-shadow: var(--shadow); margin-block: 1.6rem; width: 100%; }
+
+.prose strong { color: var(--c-ink); }
+
+@media (max-width: 560px) {
+  .prose table { font-size: var(--fs-xs); }
+  .prose thead th, .prose tbody td { padding: .6rem .7rem; }
+}

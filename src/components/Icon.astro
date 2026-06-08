@@ -1,0 +1,58 @@
+---
+/**
+ * מערכת אייקונים מקצועית — SVG מוטמע (stroke), ללא ספריות חיצוניות / אימוג'ים.
+ * שימוש: <Icon name="phone" /> | <Icon name="wrench" size={28} />
+ */
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+  'stroke-width'?: number;
+}
+const { name, size = 24, class: cls = '', 'stroke-width': sw = 2 } = Astro.props;
+
+// נתיבי האייקונים (Lucide-style, פתוח). מוסיפים כאן אייקונים חדשים לפי הצורך.
+const paths: Record<string, string> = {
+  phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  whatsapp: '<path d="M3 21l1.65-4.8a8 8 0 1 1 3.4 3.34L3 21z"/><path d="M9 10c.5 1.5 2 3 3.5 3.5l1-1.2c.3-.3.8-.4 1.1-.2.5.2 1 .4 1.5.5.4.1.7.5.7.9v1.3c0 .5-.4.9-.9.9A6.5 6.5 0 0 1 8 9.4c0-.5.4-.9.9-.9h1.3c.4 0 .8.3.9.7.1.5.3 1 .5 1.5.2.3.1.8-.2 1.1l-1.1 1"/>',
+  mail: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
+  'map-pin': '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>',
+  'check-circle': '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/>',
+  star: '<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  wrench: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.1-2.1 2.6-2.5z"/>',
+  droplet: '<path d="M12 2.5s6 5.5 6 10.5a6 6 0 0 1-12 0c0-5 6-10.5 6-10.5z"/>',
+  shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  'shield-check': '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
+  gauge: '<path d="M12 14 4.5 9.5"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/><circle cx="12" cy="14" r="1.5" fill="currentColor"/>',
+  tools: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.1-2.1 2.6-2.5z"/>',
+  'arrow-left': '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
+  'arrow-right': '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+  'chevron-down': '<path d="m6 9 6 6 6-6"/>',
+  'chevron-left': '<path d="m15 18-6-6 6-6"/>',
+  menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
+  x: '<path d="M18 6 6 18M6 6l12 12"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  send: '<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/>',
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  award: '<circle cx="12" cy="8" r="6"/><path d="M8.2 13.9 7 22l5-3 5 3-1.2-8.1"/>',
+  zap: '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+  'thumbs-up': '<path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88z"/>',
+  search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  banknote: '<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/>',
+  home: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',
+};
+
+const d = paths[name] ?? '';
+---
+{d ? (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size} height={size} viewBox="0 0 24 24"
+    fill="none" stroke="currentColor" stroke-width={sw}
+    stroke-linecap="round" stroke-linejoin="round"
+    class={`icon icon-${name} ${cls}`} aria-hidden="true" focusable="false"
+    set:html={d}
+  />
+) : null}

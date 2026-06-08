@@ -1,0 +1,61 @@
+---
+import { getCollection, render } from 'astro:content';
+import ContentLayout from '../layouts/ContentLayout.astro';
+import { regions } from '../data/site';
+
+type Kind = 'cities' | 'services' | 'regions' | 'static';
+
+export async function getStaticPaths() {
+  const kinds: Kind[] = ['cities', 'services', 'regions', 'static'];
+  const allRegions = [regions.center, regions.north, regions.south];
+
+  const cleanH1 = (title: string) => title.split(/\s[–|]\s|\s-\s/)[0].trim();
+
+  const crumbsFor = (kind: Kind, slug: string, h1: string) => {
+    const path = `/${slug}/`;
+    if (kind === 'cities') {
+      const r = allRegions.find((rg) => rg.cities.some((c) => c.href === path));
+      if (r) return [{ label: `אינסטלטור ב${r.label}`, href: r.href }, { label: h1 }];
+      return [{ label: h1 }];
+    }
+    if (kind === 'services') {
+      if (slug.startsWith('פתיחת-סתימה-ב')) return [{ label: 'פתיחת סתימות', href: '/פתיחת-סתימות/' }, { label: h1 }];
+      return [{ label: h1 }];
+    }
+    if (kind === 'regions') {
+      if (slug === 'אזורי-שירות') return [{ label: h1 }];
+      return [{ label: 'אזורי שירות', href: '/אזורי-שירות/' }, { label: h1 }];
+    }
+    return [{ label: h1 }];
+  };
+
+  // עמודי hub -> רשת קישורים (במקום/בנוסף לגוף)
+  const hubFor = (slug: string): { variant: string; region?: string; showBody: boolean } => {
+    if (slug === 'פתיחת-סתימות') return { variant: 'clog', showBody: false };
+    if (slug === 'אזורי-שירות') return { variant: 'all-regions', showBody: false };
+    if (slug === 'אינסטלטור-במרכז') return { variant: 'region', region: 'center', showBody: true };
+    if (slug === 'אינסטלטור-בצפון') return { variant: 'region', region: 'north', showBody: true };
+    if (slug === 'אינסטלטור-בדרום') return { variant: 'region', region: 'south', showBody: true };
+    return { variant: '', showBody: true };
+  };
+
+  const paths = [];
+  for (const kind of kinds) {
+    const entries = await getCollection(kind);
+    for (const entry of entries) {
+      const h1 = cleanH1(entry.data.title);
+      paths.push({
+        params: { slug: entry.data.slug },
+        props: { entry, kind, h1, crumbs: crumbsFor(kind, entry.data.slug, h1), hub: hubFor(entry.data.slug) },
+      });
+    }
+  }
+  return paths;
+}
+
+const { entry, kind, h1, crumbs, hub } = Astro.props;
+const { Content } = await render(entry);
+---
+<ContentLayout data={entry.data} kind={kind} h1={h1} crumbs={crumbs} hub={hub}>
+  <Content />
+</ContentLayout>

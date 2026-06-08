@@ -1,0 +1,9 @@
+# אחידות line-endings — LF בכל הקבצים הטקסטואליים (ה-CI בונה על Linux)
+* text=auto eol=lf
+
+# קבצים בינאריים — לא לגעת
+*.png binary
+*.webp binary
+*.jpg binary
+*.jpeg binary
+*.ico binary

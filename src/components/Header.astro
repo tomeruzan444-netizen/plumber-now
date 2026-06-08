@@ -1,0 +1,115 @@
+---
+import Icon from './Icon.astro';
+import { site, nav } from '../data/site';
+const path = Astro.url.pathname;
+const isActive = (href: string) => href === '/' ? path === '/' : path.startsWith(href);
+---
+<header class="hdr">
+  <!-- top bar -->
+  <div class="hdr__top">
+    <div class="container hdr__top-row">
+      <span class="hdr__area"><Icon name="map-pin" size={16} /> {site.serviceArea}</span>
+      <a class="hdr__topphone" href={`tel:${site.phoneRaw}`}><Icon name="phone" size={16} /> {site.phone}</a>
+    </div>
+  </div>
+
+  <!-- main bar -->
+  <div class="hdr__main">
+    <div class="container hdr__row">
+      <a href="/" class="hdr__logo" aria-label={site.name}>
+        <img src="/images/logo.webp" width="150" height="63" alt={site.name} fetchpriority="high" />
+      </a>
+
+      <nav class="hdr__nav" aria-label="ניווט ראשי">
+        <ul>
+          {nav.map((item) => (
+            <li class={item.children ? 'has-sub' : ''}>
+              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                {item.label}{item.children && <Icon name="chevron-down" size={15} />}
+              </a>
+              {item.children && (
+                <ul class="hdr__sub">
+                  {item.children.map((c) => (
+                    <li><a href={c.href}>{c.label}</a></li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <a class="btn btn--cta hdr__cta" href={`tel:${site.phoneRaw}`}>
+        <Icon name="phone" size={18} /> חייגו עכשיו
+      </a>
+
+      <button class="hdr__burger" aria-label="פתיחת תפריט" aria-expanded="false" aria-controls="mobile-nav">
+        <Icon name="menu" size={26} />
+      </button>
+    </div>
+  </div>
+
+  <!-- mobile nav -->
+  <nav id="mobile-nav" class="hdr__mobile" aria-label="ניווט נייד" hidden>
+    <ul>
+      {nav.map((item) => (
+        <li><a href={item.href}>{item.label}</a>
+          {item.children && <ul>{item.children.map((c) => <li><a href={c.href}>{c.label}</a></li>)}</ul>}
+        </li>
+      ))}
+    </ul>
+    <a class="btn btn--cta btn--block" href={`tel:${site.phoneRaw}`}><Icon name="phone" size={18} /> {site.phone}</a>
+  </nav>
+</header>
+
+<style>
+  .hdr { position: sticky; top: 0; z-index: 100; background: #fff; box-shadow: var(--shadow-sm); }
+  .hdr__top { background: var(--c-navy); color: #fff; font-size: var(--fs-sm); }
+  .hdr__top-row { display: flex; justify-content: space-between; align-items: center; height: 38px; }
+  .hdr__area { display: inline-flex; align-items: center; gap: .4rem; opacity: .9; }
+  .hdr__topphone { color: #fff; font-weight: 700; display: inline-flex; align-items: center; gap: .4rem; }
+  .hdr__topphone:hover { color: var(--c-brand); }
+
+  .hdr__row { display: flex; align-items: center; gap: 1.5rem; height: var(--header-h); }
+  .hdr__logo img { width: clamp(120px, 14vw, 150px); height: auto; }
+  .hdr__nav { margin-inline-start: auto; }
+  .hdr__nav > ul { display: flex; gap: .35rem; list-style: none; padding: 0; margin: 0; }
+  .hdr__nav > ul > li { position: relative; }
+  .hdr__nav a {
+    display: inline-flex; align-items: center; gap: .25rem; padding: .55rem .8rem;
+    color: var(--c-navy); font-weight: 600; font-size: var(--fs-sm); border-radius: 8px;
+  }
+  .hdr__nav a:hover, .hdr__nav a[aria-current="page"] { background: var(--c-brand-50); color: var(--c-brand-600); }
+  .hdr__sub {
+    position: absolute; inset-inline-start: 0; top: 100%; min-width: 210px;
+    background: #fff; border: 1px solid var(--c-line); border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg); padding: .4rem; list-style: none; margin: 0;
+    opacity: 0; visibility: hidden; transform: translateY(6px); transition: all .15s ease; z-index: 10;
+  }
+  .has-sub:hover .hdr__sub, .has-sub:focus-within .hdr__sub { opacity: 1; visibility: visible; transform: translateY(0); }
+  .hdr__sub a { display: block; }
+  .hdr__cta { flex-shrink: 0; }
+  .hdr__burger { display: none; background: none; border: none; color: var(--c-navy); padding: .3rem; }
+
+  .hdr__mobile { display: none; padding: 1rem; border-top: 1px solid var(--c-line); background: #fff; }
+  .hdr__mobile ul { list-style: none; padding: 0; margin: 0 0 1rem; }
+  .hdr__mobile > ul > li > a { display: block; padding: .8rem .5rem; font-weight: 700; color: var(--c-navy); border-bottom: 1px solid var(--c-line); }
+  .hdr__mobile ul ul { padding-inline-start: 1rem; margin: 0; }
+  .hdr__mobile ul ul a { font-weight: 500; color: var(--c-body); padding: .55rem .5rem; }
+
+  @media (max-width: 980px) {
+    .hdr__nav, .hdr__cta { display: none; }
+    .hdr__burger { display: inline-flex; margin-inline-start: auto; }
+    .hdr__mobile[data-open] { display: block; }
+  }
+</style>
+
+<script>
+  const burger = document.querySelector('.hdr__burger');
+  const mobile = document.getElementById('mobile-nav');
+  burger?.addEventListener('click', () => {
+    const open = mobile?.toggleAttribute('data-open');
+    mobile?.toggleAttribute('hidden', !open);
+    burger.setAttribute('aria-expanded', String(!!open));
+  });
+</script>
