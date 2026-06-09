@@ -4,7 +4,7 @@
 
 export const site = {
   name: 'אינסטלטור עכשיו',
-  tagline: 'פורטל האינסטלציה',
+  tagline: 'מובילים בשירותי אינסטלציה',
   url: 'https://plumbernow.co.il',
   phone: '052-4025710',
   phoneRaw: '0524025710',
