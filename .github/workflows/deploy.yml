@@ -4,6 +4,13 @@ name: Build & Deploy to Hostinger
 on:
   push:
     branches: [main]
+    paths-ignore:        # שינויי תיעוד/כלים לא מפעילים deploy (חוסך FTP)
+      - 'CLAUDE.md'
+      - 'CONTENT-GUIDE.md'
+      - 'README.md'
+      - '_migration/**'
+      - '.gitignore'
+      - '.gitattributes'
   workflow_dispatch: # אפשרות להפעלה ידנית מ-GitHub
 
 permissions:
