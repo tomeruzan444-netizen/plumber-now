@@ -6,11 +6,8 @@ export const site = {
   name: 'אינסטלטור עכשיו',
   tagline: 'מובילים בשירותי אינסטלציה',
   url: 'https://plumbernow.co.il',
-  phone: '052-4025710',
-  phoneRaw: '0524025710',
-  landline: '03-3769229',
-  landlineRaw: '033769229',
-  whatsapp: '972524025710',
+  phone: '03-3769229',
+  phoneRaw: '033769229',
   email: 'support@plumbernow.co.il',
   serviceArea: 'שירות בכל הארץ',
 };

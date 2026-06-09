@@ -77,7 +77,6 @@ const stats = [
       {data.description && <p class="phero__lead">{data.description}</p>}
       <div class="phero__cta">
         <a class="btn btn--cta btn--lg" href={`tel:${site.phoneRaw}`}><Icon name="phone" size={20} /> {site.phone}</a>
-        <a class="btn btn--ghost" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener"><Icon name="whatsapp" size={18} /> וואטסאפ</a>
       </div>
       <ul class="phero__stats">
         {stats.map((s) => <li><Icon name={s.icon} size={18} /> {s.label}</li>)}
