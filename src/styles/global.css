@@ -21,9 +21,9 @@
   --c-ink: #0f172a;          /* טקסט ראשי */
   --c-body: #334155;         /* טקסט גוף */
   --c-muted: #64748b;        /* טקסט משני */
-  --c-line: #e2e8f0;         /* קווי הפרדה */
+  --c-line: #e8edf3;         /* קווי הפרדה (עדין) */
   --c-bg: #ffffff;
-  --c-bg-soft: #f6f9fc;      /* רקע סקשנים */
+  --c-bg-soft: #f6f8fb;      /* רקע סקשנים */
   --c-bg-card: #ffffff;
 
   /* --- Typography --- */
@@ -41,14 +41,14 @@
   /* --- Layout --- */
   --container: 1200px;
   --gap: clamp(1rem, 3vw, 2rem);
-  --radius: 14px;
-  --radius-sm: 10px;
-  --radius-lg: 22px;
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-lg: 20px;
 
-  /* --- Elevation --- */
-  --shadow-sm: 0 1px 3px rgba(10, 37, 64, .06), 0 1px 2px rgba(10, 37, 64, .04);
-  --shadow: 0 4px 16px rgba(10, 37, 64, .08);
-  --shadow-lg: 0 12px 40px rgba(10, 37, 64, .12);
+  /* --- Elevation (צללים רכים ומודרניים) --- */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, .04), 0 1px 3px rgba(15, 23, 42, .05);
+  --shadow: 0 8px 28px -10px rgba(15, 23, 42, .14);
+  --shadow-lg: 0 24px 56px -18px rgba(15, 23, 42, .20);
   --ring: 0 0 0 3px rgba(0, 166, 224, .25);
 
   --header-h: 78px;
@@ -79,12 +79,13 @@ a:hover { color: var(--c-navy); }
 ul, ol { padding-inline-start: 1.4em; }
 button { font: inherit; cursor: pointer; }
 :focus-visible { outline: none; box-shadow: var(--ring); border-radius: 6px; }
+::selection { background: var(--c-brand); color: #fff; }
 
 /* ============================================================
    Typography
    ============================================================ */
-h1, h2, h3, h4 { color: var(--c-navy); line-height: 1.25; font-weight: 800; text-wrap: balance; }
-h1 { font-size: var(--fs-4xl); letter-spacing: -.02em; }
+h1, h2, h3, h4 { color: var(--c-navy); line-height: 1.18; font-weight: 800; text-wrap: balance; }
+h1 { font-size: var(--fs-4xl); letter-spacing: -.015em; }
 h2 { font-size: var(--fs-3xl); letter-spacing: -.01em; }
 h3 { font-size: var(--fs-xl); }
 h4 { font-size: var(--fs-lg); }
@@ -95,7 +96,7 @@ strong, b { font-weight: 700; color: var(--c-ink); }
    Layout helpers
    ============================================================ */
 .container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: clamp(1rem, 4vw, 1.75rem); }
-.section { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+.section { padding-block: clamp(3rem, 7vw, 5.5rem); }
 .section--soft { background: var(--c-bg-soft); }
 .eyebrow { color: var(--c-brand-600); font-weight: 700; font-size: var(--fs-sm); letter-spacing: .02em; }
 
@@ -110,10 +111,10 @@ strong, b { font-weight: 700; color: var(--c-ink); }
   line-height: 1; white-space: nowrap;
 }
 .btn:active { transform: translateY(1px); }
-.btn--brand { background: var(--c-brand); color: #fff; box-shadow: var(--shadow); }
-.btn--brand:hover { background: var(--c-brand-600); color: #fff; box-shadow: var(--shadow-lg); }
-.btn--cta { background: var(--c-cta); color: #fff; box-shadow: var(--shadow); }
-.btn--cta:hover { background: var(--c-cta-600); color: #fff; box-shadow: var(--shadow-lg); }
+.btn--brand { background: var(--c-brand); color: #fff; box-shadow: var(--shadow-sm); }
+.btn--brand:hover { background: var(--c-brand-600); color: #fff; box-shadow: var(--shadow); transform: translateY(-1px); }
+.btn--cta { background: var(--c-cta); color: #fff; box-shadow: var(--shadow-sm); }
+.btn--cta:hover { background: var(--c-cta-600); color: #fff; box-shadow: var(--shadow); transform: translateY(-1px); }
 .btn--navy { background: var(--c-navy); color: #fff; }
 .btn--navy:hover { background: var(--c-navy-700); color: #fff; }
 .btn--ghost { background: #fff; color: var(--c-navy); border-color: var(--c-line); }
