@@ -11,6 +11,9 @@ const schema = z.object({
   wpId: z.number().optional(),
   modified: z.string().optional(),
   faq: z.array(z.object({ q: z.string(), a: z.string() })).optional(),
+  intent: z.enum(['local', 'commercial', 'informational', 'navigation']).optional(),
+  primaryKeyword: z.string().optional(),
+  dateModified: z.string().optional(),
 });
 
 const make = (dir: string) =>

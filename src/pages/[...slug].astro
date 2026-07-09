@@ -31,8 +31,8 @@ export async function getStaticPaths() {
 
   // עמודי hub -> רשת קישורים (במקום/בנוסף לגוף)
   const hubFor = (slug: string): { variant: string; region?: string; showBody: boolean } => {
-    if (slug === 'פתיחת-סתימות') return { variant: 'clog', showBody: false };
-    if (slug === 'אזורי-שירות') return { variant: 'all-regions', showBody: false };
+    if (slug === 'פתיחת-סתימות') return { variant: 'clog', showBody: true };
+    if (slug === 'אזורי-שירות') return { variant: 'all-regions', showBody: true };
     if (slug === 'אינסטלטור-במרכז') return { variant: 'region', region: 'center', showBody: true };
     if (slug === 'אינסטלטור-בצפון') return { variant: 'region', region: 'north', showBody: true };
     if (slug === 'אינסטלטור-בדרום') return { variant: 'region', region: 'south', showBody: true };

@@ -14,9 +14,11 @@ let nearby: { label: string; href: string }[] = [];
 let regionLabel = '';
 if (kind === 'cities') {
   for (const r of allRegions) {
-    if (r.cities.some((c) => c.href === path)) {
+    const idx = r.cities.findIndex((c) => c.href === path);
+    if (idx !== -1) {
       regionLabel = r.label;
-      nearby = r.cities.filter((c) => c.href !== path).slice(0, 8);
+      // סבב מעגלי מהעיר הנוכחית — מפזר קישורים פנימיים בין כל ערי האזור
+      nearby = [...r.cities.slice(idx + 1), ...r.cities.slice(0, idx)].slice(0, 8);
       break;
     }
   }
