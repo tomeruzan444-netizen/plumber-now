@@ -3,10 +3,10 @@ import { getCollection, render } from 'astro:content';
 import ContentLayout from '../layouts/ContentLayout.astro';
 import { regions } from '../data/site';
 
-type Kind = 'cities' | 'services' | 'regions' | 'static';
+type Kind = 'cities' | 'services' | 'regions' | 'static' | 'guides';
 
 export async function getStaticPaths() {
-  const kinds: Kind[] = ['cities', 'services', 'regions', 'static'];
+  const kinds: Kind[] = ['cities', 'services', 'regions', 'static', 'guides'];
   const allRegions = [regions.center, regions.north, regions.south];
 
   const cleanH1 = (title: string) => title.split(/\s[–|]\s|\s-\s/)[0].trim();

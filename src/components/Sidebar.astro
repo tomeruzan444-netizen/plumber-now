@@ -3,7 +3,7 @@ import Icon from './Icon.astro';
 import LeadForm from './LeadForm.astro';
 import { site, services, regions } from '../data/site';
 
-interface Props { kind: 'cities' | 'services' | 'regions' | 'static'; slug: string; }
+interface Props { kind: 'cities' | 'services' | 'regions' | 'static' | 'guides'; slug: string; }
 const { kind, slug } = Astro.props;
 
 const allRegions = [regions.center, regions.north, regions.south];
@@ -50,7 +50,7 @@ const otherServices = services.filter((s) => s.href !== path).slice(0, 7);
     </div>
   )}
 
-  {(kind === 'cities' || kind === 'regions' || kind === 'static') && (
+  {(kind === 'cities' || kind === 'regions' || kind === 'static' || kind === 'guides') && (
     <div class="sb__box card">
       <h3 class="sb__title"><Icon name="wrench" size={18} /> שירותי אינסטלציה</h3>
       <ul class="sb__links">

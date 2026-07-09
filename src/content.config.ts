@@ -24,4 +24,5 @@ export const collections = {
   services: make('services'),
   regions: make('regions'),
   static: make('static'),
+  guides: make('guides'),
 };

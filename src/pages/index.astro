@@ -15,21 +15,29 @@ const steps = [
   { icon: 'check-circle', title: 'העבודה מבוצעת', desc: 'שירות מהיר ואמין עד הבית, באחריות מלאה' },
 ];
 
+import { cities } from '../data/cities';
+
 const jsonLd = [{
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
+  '@type': 'Plumber',
+  '@id': `${site.url}/#business`,
   name: site.name,
-  description: 'מובילים בשירותי אינסטלציה - כל עבודות האינסטלציה במקום אחד עם מחירונים',
+  description: 'שירותי אינסטלציה בפריסה ארצית: פתיחת סתימות, איתור ותיקון נזילות, החלפת ברזים וצנרת, עם מחירון שקוף מראש',
   url: site.url,
   telephone: site.phone,
   email: site.email,
-  areaServed: 'IL',
+  priceRange: '₪₪',
+  areaServed: [
+    { '@type': 'Country', name: 'ישראל' },
+    ...cities.map((c) => ({ '@type': 'City', name: c.label })),
+  ],
   image: `${site.url}/images/logo.png`,
+  logo: `${site.url}/images/logo.png`,
 }];
 ---
 <BaseLayout
   title="אינסטלטור עכשיו | כל עבודות האינסטלציה במקום אחד עם מחירונים"
-  description="מחפשים אינסטלטור עכשיו? הגעתם למקום הנכון. אנחנו עושים את כל עבודות האינסטלציה עכשיו! במחיר מעולה. הציצו במחירונים המקיפים שלנו"
+  description="אינסטלטור מקצועי בכל הארץ: פתיחת סתימות, איתור נזילות, החלפת ברזים וצנרת. מחירון שקוף מראש, זמינות מהירה. חייגו 03-3769229"
   jsonLd={jsonLd}
 >
   <Header slot="header" />

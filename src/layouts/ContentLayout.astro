@@ -10,10 +10,11 @@ import HubLinks from '../components/HubLinks.astro';
 import Icon from '../components/Icon.astro';
 import '../styles/prose.css';
 import { site } from '../data/site';
+import { cities, regionMeta } from '../data/cities';
 
 interface Props {
   data: any;
-  kind: 'cities' | 'services' | 'regions' | 'static';
+  kind: 'cities' | 'services' | 'regions' | 'static' | 'guides';
   crumbs: { label: string; href?: string }[];
   h1: string;
   hub?: { variant: string; region?: string; showBody: boolean };
@@ -45,11 +46,28 @@ if (data.faq?.length) {
     })),
   });
 }
-jsonLd.push({
-  '@context': 'https://schema.org', '@type': 'LocalBusiness',
-  name: site.name, url: canon, telephone: site.phone, email: site.email, areaServed: 'IL',
+const business = {
+  '@context': 'https://schema.org', '@type': 'Plumber',
+  '@id': `${site.url}/#business`,
+  name: site.name, url: site.url, telephone: site.phone, email: site.email,
+  priceRange: '₪₪',
+  areaServed: [
+    { '@type': 'Country', name: 'ישראל' },
+    ...cities.map((c) => ({ '@type': 'City', name: c.label })),
+  ],
   image: data.ogImage || `${site.url}/images/logo.png`,
-});
+  logo: `${site.url}/images/logo.png`,
+};
+jsonLd.push(business);
+if (kind === 'services') {
+  jsonLd.push({
+    '@context': 'https://schema.org', '@type': 'Service',
+    name: h1, serviceType: h1, url: canon,
+    description: data.description,
+    provider: { '@id': `${site.url}/#business` },
+    areaServed: Object.values(regionMeta).map((r) => ({ '@type': 'AdministrativeArea', name: `אזור ה${r.label}` })),
+  });
+}
 
 const stats = [
   { icon: 'clock', label: 'הגעה מהירה' },
