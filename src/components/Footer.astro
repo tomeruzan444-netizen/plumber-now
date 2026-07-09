@@ -4,6 +4,14 @@ import Logo from './Logo.astro';
 import { site, services, regions } from '../data/site';
 const year = 2026;
 const allRegions = [regions.center, regions.north, regions.south];
+
+// 7 הערים הראשונות של כל אזור; במרכז מוסיפים גם את יהוד
+const footerCities = (r: (typeof allRegions)[number]) => {
+  const list = r.cities.slice(0, 7);
+  const yahud = r.cities.find((c) => c.href === '/אינסטלטור-ביהוד/');
+  if (yahud && !list.includes(yahud)) list.push(yahud);
+  return list;
+};
 ---
 <footer class="ftr">
   <div class="container ftr__grid">
@@ -28,7 +36,7 @@ const allRegions = [regions.center, regions.north, regions.south];
     {allRegions.map((r) => (
       <div class="ftr__col">
         <h4><a href={r.href}>אינסטלטור ב{r.label}</a></h4>
-        <ul>{r.cities.slice(0, 7).map((c) => <li><a href={c.href}>{c.label}</a></li>)}</ul>
+        <ul>{footerCities(r).map((c) => <li><a href={c.href}>{c.label}</a></li>)}</ul>
       </div>
     ))}
   </div>
