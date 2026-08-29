@@ -39,19 +39,18 @@ jobs:
       - name: Build site
         run: npm run build
 
-      - name: Deploy to Hostinger via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Deploy to Hostinger via SSH (rsync)
+        # FTP-Deploy-Action הוחלף ב-2026-08-29: ה-FTP נכשל שוב ושוב, ובנוסף גילינו
+        # שאינטגרציית ה-Git הנייטיבית של הוסטינגר (hPanel) עשתה checkout גולמי של
+        # הריפו (ללא build!) לאותה תיקייה - התנגשות שהפילה את האתר. תיקון: כיבינו
+        # את פריסת ה-Git של הוסטינגר, ועברנו ל-SSH+rsync שבודק כאן ב-build אמיתי.
+        uses: easingthemes/ssh-deploy@v5
         with:
-          server: ${{ secrets.FTP_SERVER }}      # למשל: ftp.plumbernow.co.il
-          username: ${{ secrets.FTP_USERNAME }}  # שם משתמש FTP מהוסטינגר
-          password: ${{ secrets.FTP_PASSWORD }}  # סיסמת FTP מהוסטינגר
-          protocol: ftps                          # מאובטח (FTPS). אם נכשל -> ftp
-          local-dir: ./dist/                      # תוצר הבנייה של Astro
-          server-dir: ${{ secrets.FTP_REMOTE_DIR }} # למשל: /public_html/  (או /domains/plumbernow.co.il/public_html/)
-          state-name: .deploy-state-v2.json       # state -> העלאה incremental
-          timeout: 600000                          # 10 דקות — מונע "Timeout (control socket)"
-          # הערה: ניקוי שאריות וורדפרס ייעשה ידנית דרך File Manager (מחיקת FTP המונית איטית מדי).
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}      # 82.29.187.1
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}      # 65002
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}  # u260375810
+          SOURCE: "dist/"
+          TARGET: ${{ secrets.SSH_REMOTE_DIR }}     # domains/plumbernow.co.il/public_html/
+          ARGS: "-avzr --delete"
+          EXCLUDE: ".git*"
