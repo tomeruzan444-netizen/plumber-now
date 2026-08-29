@@ -44,7 +44,7 @@ jobs:
         # שאינטגרציית ה-Git הנייטיבית של הוסטינגר (hPanel) עשתה checkout גולמי של
         # הריפו (ללא build!) לאותה תיקייה - התנגשות שהפילה את האתר. תיקון: כיבינו
         # את פריסת ה-Git של הוסטינגר, ועברנו ל-SSH+rsync שבודק כאן ב-build אמיתי.
-        uses: easingthemes/ssh-deploy@v5
+        uses: easingthemes/ssh-deploy@v5.1.2
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.SSH_HOST }}      # 82.29.187.1
