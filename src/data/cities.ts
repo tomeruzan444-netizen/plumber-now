@@ -30,6 +30,7 @@ export const cities: City[] = [
   { slug: 'אינסטלטור-בכפר-יונה', label: 'כפר יונה', region: 'center' },
   { slug: 'אינסטלטור-בתל-מונד', label: 'תל מונד', region: 'center' },
   { slug: 'אינסטלטור-באבן-יהודה', label: 'אבן יהודה', region: 'center' },
+  { slug: 'אינסטלטור-בקדימה-צורן', label: 'קדימה צורן', region: 'center' },
   { slug: 'אינסטלטור-בסביון', label: 'סביון', region: 'center' },
   { slug: 'אינסטלטור-בשוהם', label: 'שוהם', region: 'center' },
   { slug: 'אינסטלטור-ביהוד', label: 'יהוד', region: 'center' },
