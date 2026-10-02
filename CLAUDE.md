@@ -27,9 +27,9 @@
 - `npm run preview` — תצוגת תוצר הבנייה
 
 ## פריסה (Deploy)
-- `git push origin main` → **GitHub Actions** בונה ומעלה אוטומטית להוסטינגר ב-FTP (`.github/workflows/deploy.yml`).
-- ה-FTP של הוסטינגר עלול לחסום זמנית אחרי הרבה העלאות רצופות (ETIMEDOUT/Timeout) — להמתין ~30–60 דק' ולנסות שוב, לא להציף.
+- `git push origin main` → **GitHub Actions** בונה (`npm run build`) ומעלה אוטומטית להוסטינגר ב-**SSH/rsync** (`.github/workflows/deploy.yml`, action `easingthemes/ssh-deploy`). זו **הדרך היחידה** לעדכן את האתר.
 - אימות סטטוס ריצה דרך GitHub API: `actions/runs?per_page=1`.
+- **⚠️ סכנה חוזרת: אינטגרציית ה-Git הנייטיבית של הוסטינגר (hPanel → Advanced → Git) חייבת להישאר מנותקת (disconnected), לא רק עם auto-deploy כבוי.** אם היא מתחברת מחדש, כל push ל-main יגרום לה לבצע checkout גולמי של הריפו (בלי build!) ישירות ל-`public_html`, שדורס את האתר הבנוי ומפיל אותו (403 בדף הבית, 404 בכל השאר - תקלה שחזרה פעמיים: 2026-08-29 ו-2026-10-02, ראו `TASK-LOG.md`). **אבחון מהיר:** אם האתר קורס, לבדוק אם `https://plumbernow.co.il/package.json` מחזיר 200 - אם כן, זה בדיוק הסימן הזה, והפתרון הוא לנתק מחדש ב-hPanel (לא רק לכבות auto-deploy).
 
 ## כללים חשובים
 - **לא לשנות `slug` של עמוד קיים** — זה שובר SEO (כל ה-URLs נשמרו 1:1 מהאתר הישן).
