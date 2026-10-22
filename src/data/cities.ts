@@ -49,6 +49,7 @@ export const cities: City[] = [
   // --- צפון ---
   { slug: 'אינסטלטור-בחיפה', label: 'חיפה', region: 'north' },
   { slug: 'אינסטלטור-בחדרה', label: 'חדרה', region: 'north' },
+  { slug: 'אינסטלטור-בזכרון-יעקב', label: 'זכרון יעקב', region: 'north' },
   { slug: 'אינסטלטור-בקריות', label: 'הקריות', region: 'north' },
   { slug: 'אינסטלטור-בקרית-חיים', label: 'קרית חיים', region: 'north' },
   { slug: 'אינסטלטור-בטבריה', label: 'טבריה', region: 'north' },
