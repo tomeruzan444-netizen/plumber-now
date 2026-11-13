@@ -18,6 +18,7 @@ export const cities: City[] = [
   { slug: 'אינסטלטור-ברחובות', label: 'רחובות', region: 'center' },
   { slug: 'אינסטלטור-בפתח-תקווה', label: 'פתח תקווה', region: 'center' },
   { slug: 'אינסטלטור-בראש-העין', label: 'ראש העין', region: 'center' },
+  { slug: 'אינסטלטור-באלעד', label: 'אלעד', region: 'center' },
   { slug: 'אינסטלטור-בבני-ברק', label: 'בני ברק', region: 'center' },
   { slug: 'אינסטלטור-ברמת-השרון', label: 'רמת השרון', region: 'center' },
   { slug: 'אינסטלטור-באור-יהודה', label: 'אור יהודה', region: 'center' },
